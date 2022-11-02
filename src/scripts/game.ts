@@ -1,11 +1,11 @@
 import 'phaser'
 import MainScene from './scenes/mainScene'
 
-const CANVAS_WIDTH = 720;
-const CANVAS_HEIGHT = 528;
+const CANVAS_WIDTH = 800;
+const CANVAS_HEIGHT = 600;
 
 const gameConfig: Phaser.Types.Core.GameConfig = {
-  title: "Sample",
+  title: 'White Gold',
   render: {
     antialias: false,
   },
@@ -14,10 +14,15 @@ const gameConfig: Phaser.Types.Core.GameConfig = {
   scale: {
     width: CANVAS_WIDTH,
     height: CANVAS_HEIGHT,
-    autoCenter: Phaser.Scale.CENTER_BOTH,
   },
-  parent: "game",
+  parent: "phaser-game",
   backgroundColor: "#48C4F8",
+  physics: {
+    default: 'arcade',
+    arcade: {
+      gravity: { y: 0 }, // Top down game, so no gravity
+    }
+  }
 };
 
 window.addEventListener('load', () => {
