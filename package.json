@@ -5,10 +5,10 @@
   "homepage": "https://github.com/yandeu/phaser-project-template#readme",
   "main": "index.js",
   "scripts": {
-    "heroku-prebuild": "npm install --dev",
+    "heroku-prebuild": "npm install",
     "heroku-postbuild": "npm run build",
     "start": "webpack serve --config webpack/webpack.dev.js",
-    "build": "rimraf dist && webpack --config webpack/webpack.prod.js",
+    "build": "webpack --mode production --config webpack/webpack.prod.js",
     "bundle": "npm run build",
     "serve": "serve dist",
     "format": "prettier --check src/scripts/**",
