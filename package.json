@@ -6,6 +6,7 @@
   "main": "index.js",
   "scripts": {
     "heroku-prebuild": "npm install --dev",
+    "heroku-postbuild": "npm run build",
     "start": "webpack serve --config webpack/webpack.dev.js",
     "build": "rimraf dist && webpack --config webpack/webpack.prod.js",
     "bundle": "npm run build",
