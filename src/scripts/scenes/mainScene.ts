@@ -1,27 +1,27 @@
-import PhaserLogo from '../objects/phaserLogo'
-import FpsText from '../objects/fpsText'
+const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
+  active: false,
+  visible: false,
+  key: "Game",
+};
 
 export default class MainScene extends Phaser.Scene {
-  fpsText
-
   constructor() {
-    super({ key: 'MainScene' })
+    super(sceneConfig)
+  }
+
+  preload() {
+    this.load.image("tiles", "assets/img/cloud_tileset.png");
+    this.load.tilemapTiledJSON("cloud-city-map", "assets/cloud-city.json");
   }
 
   create() {
-    new PhaserLogo(this, this.cameras.main.width / 2, 0)
-    this.fpsText = new FpsText(this)
-
-    // display the Phaser.VERSION
-    this.add
-      .text(this.cameras.main.width - 15, 15, `Phaser v${Phaser.VERSION}`, {
-        color: '#000000',
-        fontSize: '24px'
-      })
-      .setOrigin(1, 0)
-  }
-
-  update() {
-    this.fpsText.update()
+    const cloudCityTilemap = this.make.tilemap({ key: "cloud-city-map" });
+    cloudCityTilemap.addTilesetImage("Cloud City", "tiles");
+    for (let i = 0; i < cloudCityTilemap.layers.length; i++) {
+      const layer = cloudCityTilemap
+        .createLayer(i, "Cloud City", 0, 0)
+      layer.setDepth(i);
+      layer.scale = 3;
+    }
   }
 }
