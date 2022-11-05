@@ -2,6 +2,7 @@ import Player from "../objects/player";
 import GridControls from "../utils/gridControls";
 import GridPhysics from "../utils/gridPhysics";
 import { Direction } from "../utils/direction";
+import DialogModalPlugin from "../plugins/dialogModal";
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
   active: false,
@@ -36,12 +37,17 @@ export default class MainScene extends Phaser.Scene {
   }
 
   preload() {
+    const key = 'DialogModalPlugin'
+    this.plugins.install(key, DialogModalPlugin)
+    const plugin = this.plugins.get(key)
+    
     this.load.image("tiles", "assets/img/cloud_tileset.png");
     this.load.tilemapTiledJSON("cloud-city-map", "assets/cloud-city.json");
     this.load.spritesheet("player", "assets/img/characters.png", {
-      frameWidth: 26,
-      frameHeight: 36,
-    });
+        frameWidth: 26,
+        frameHeight: 36,
+      });
+
   }
 
   create() {
