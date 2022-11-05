@@ -43,7 +43,7 @@ export default class MainScene extends Phaser.Scene {
     
     // TODO: fix type bs
     /* @ts-ignore */
-    dialogModal.setText('Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.');
+    dialogModal.setText('Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', true);
     
     this.load.image("tiles", "assets/img/cloud_tileset.png");
     this.load.tilemapTiledJSON("cloud-city-map", "assets/cloud-city.json");

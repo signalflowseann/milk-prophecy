@@ -20,6 +20,8 @@ export default class DialogModalPlugin extends Phaser.Plugins.BasePlugin {
   text: Phaser.GameObjects.Text
   graphics: Phaser.GameObjects.Graphics
   closeBtn: Phaser.GameObjects.Text
+  dialog: string
+  timedEvent: Phaser.Time.TimerEvent
 
   constructor (pluginManager) {
     super(pluginManager);
@@ -39,6 +41,8 @@ export default class DialogModalPlugin extends Phaser.Plugins.BasePlugin {
     this.text;
     this.graphics;
     this.closeBtn;
+    this.dialog = '';
+    this.timedEvent;
   }
 
   init () {  
@@ -141,8 +145,31 @@ export default class DialogModalPlugin extends Phaser.Plugins.BasePlugin {
   }
 
   // Sets the text for the dialog window
-  setText(text) {
-    this._setText(text);
+  setText(text, animate=false) {
+    // Reset the dialog
+    this.eventCounter = 0;
+    this.dialog = text.split('');
+    if (this.timedEvent) this.timedEvent.remove();
+    var tempText = animate ? '' : text;
+    this._setText(tempText);
+
+    if (animate) {
+      this.timedEvent = this.scene.time.addEvent({
+        delay: 150 - (this.dialogSpeed * 30),
+        callback: this._animateText,
+        callbackScope: this,
+        loop: true
+      });
+    }
+  }
+
+  // Slowly displays the text in the window to make it appear annimated
+  _animateText() {
+    this.eventCounter++;
+    this.text.setText(this.text.text + this.dialog[this.eventCounter - 1]);
+    if (this.eventCounter === this.dialog.length) {
+      this.timedEvent.remove();
+    }
   }
 
   // Calcuate the position of the text in the dialog window
