@@ -39,15 +39,18 @@ export default class MainScene extends Phaser.Scene {
   preload() {
     const key = 'DialogModalPlugin'
     this.plugins.install(key, DialogModalPlugin)
-    const plugin = this.plugins.get(key)
+    const dialogModal = this.plugins.get(key)
+    
+    // TODO: fix type bs
+    /* @ts-ignore */
+    dialogModal.setText('Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.');
     
     this.load.image("tiles", "assets/img/cloud_tileset.png");
     this.load.tilemapTiledJSON("cloud-city-map", "assets/cloud-city.json");
     this.load.spritesheet("player", "assets/img/characters.png", {
         frameWidth: 26,
         frameHeight: 36,
-      });
-
+    });
   }
 
   create() {

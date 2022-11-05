@@ -1,8 +1,10 @@
 // import Pha{ Scene } from "phaser";
 import Phaser from "phaser";
 
+const DEPTH = 4
+
 export default class DialogModalPlugin extends Phaser.Plugins.BasePlugin {
-  scene: Phaser.Scene | undefined
+  scene: Phaser.Scene
   systems: Phaser.Scenes.Systems
   borderThickness: number
   borderColor: Phaser.Display.Color
@@ -15,9 +17,9 @@ export default class DialogModalPlugin extends Phaser.Plugins.BasePlugin {
   dialogSpeed: number
   eventCounter: number
   visible: boolean
-  text: string
+  text: Phaser.GameObjects.Text
   graphics: Phaser.GameObjects.Graphics
-
+  closeBtn: Phaser.GameObjects.Text
 
   constructor (pluginManager) {
     super(pluginManager);
@@ -33,22 +35,26 @@ export default class DialogModalPlugin extends Phaser.Plugins.BasePlugin {
     this.closeBtnColor = 'darkgoldenrod';
     this.dialogSpeed = 3;
     this.eventCounter = 0;
-    // if the dialog window is shown
     this.visible = true;
     this.text;
     this.graphics;
+    this.closeBtn;
   }
 
   init () {  
     this._createWindow();
   }
 
-  _getGameWidth() {
-    return this.scene?.sys.game.config.width;
+  _getGameWidth(): number {
+    const width = this.scene.sys.game.config.width;
+    if (typeof width !== "number") return 0
+    return width
   }
-  // Gets the height of the game (based on the scene)
-  _getGameHeight() {
-    return this.scene?.sys.game.config.height;
+
+  _getGameHeight(): number {
+    const height = this.scene.sys.game.config.height;
+    if (typeof height !== "number") return 0
+    return height
   }
 
   _calculateWindowDimensions(width, height) {
@@ -65,13 +71,13 @@ export default class DialogModalPlugin extends Phaser.Plugins.BasePlugin {
   }
 
   _createInnerWindow(x, y, rectWidth, rectHeight) {
-    this.graphics.fillStyle(0x303030, 1).setDepth(5);
-    this.graphics.fillRect(x + 1, y + 1, rectWidth - 1, rectHeight - 1).setDepth(5).setScrollFactor(0,0);
+    this.graphics.fillStyle(0x303030, 1)
+    this.graphics.fillRect(x + 1, y + 1, rectWidth - 1, rectHeight - 1)
   }
 
   _createOuterWindow(x, y, rectWidth, rectHeight) {
-    this.graphics.lineStyle(this.borderThickness, 0x907748, this.borderAlpha).setDepth(5);
-    this.graphics.strokeRect(x, y, rectWidth, rectHeight).setDepth(5);
+    this.graphics.lineStyle(this.borderThickness, 0x907748, this.borderAlpha)
+    this.graphics.strokeRect(x, y, rectWidth, rectHeight)    
   }
 
   _createWindow() {
@@ -81,7 +87,80 @@ export default class DialogModalPlugin extends Phaser.Plugins.BasePlugin {
     if (!this.scene) return
     
     this.graphics = this.scene.add.graphics();
+
     this._createOuterWindow(dimensions.x, dimensions.y, dimensions.rectWidth, dimensions.rectHeight);
     this._createInnerWindow(dimensions.x, dimensions.y, dimensions.rectWidth, dimensions.rectHeight);
+    this._createCloseModalButton();
+    this._createCloseModalButtonBorder()
+
+    // Put the dialog box on the top of the screen and have the position fixed (aka. don't move with camera)
+    this.graphics.setDepth(DEPTH)
+    this.graphics.setScrollFactor(0,0);
+  }
+
+  _createCloseModalButton() {
+    const textStyle: 	Phaser.Types.GameObjects.Text.TextStyle = {
+      font: 'bold 12px Arial',
+      color: this.closeBtnColor
+    }
+
+    const textConfig: Phaser.Types.GameObjects.Text.TextConfig = {
+        x: this._getGameWidth() - this.padding - 14,
+        y: this._getGameHeight() - this.windowHeight - this.padding + 3,
+        text: 'X',
+        style: textStyle
+    }
+
+    this.closeBtn = this.scene.make.text(textConfig)
+    this.closeBtn.setDepth(20)
+    this.closeBtn.setScrollFactor(0,0)
+    this.closeBtn.setInteractive();
+    this.closeBtn.on('pointerover', () => {
+      this.closeBtn.setTint(0xff0000);
+    });
+    this.closeBtn.on('pointerout', () => {
+      this.closeBtn.clearTint();
+    });
+    this.closeBtn.on('pointerdown', () => {
+      this.toggleWindow();
+    });
+  }
+
+  _createCloseModalButtonBorder () {
+    var x = this._getGameWidth() - this.padding - 20;
+    var y = this._getGameHeight() - this.windowHeight - this.padding;
+    this.graphics.strokeRect(x, y, 20, 20);
+  }
+
+  // Hide/Show the dialog window
+  toggleWindow() {
+    this.visible = !this.visible;
+    if (this.text) this.text.visible = this.visible;
+    if (this.graphics) this.graphics.visible = this.visible;
+    if (this.closeBtn) this.closeBtn.visible = this.visible;
+  }
+
+  // Sets the text for the dialog window
+  setText(text) {
+    this._setText(text);
+  }
+
+  // Calcuate the position of the text in the dialog window
+  _setText(text) {
+    // Reset the dialog
+    if (this.text) this.text.destroy();
+    var x = this.padding + 10;
+    var y = this._getGameHeight() - this.windowHeight - this.padding + 10;
+    this.text = this.scene.make.text({
+      x,
+      y,
+      text,
+      style: {
+        wordWrap: { width: this._getGameWidth() - (this.padding * 2) - 25 }
+      }
+    });
+
+    this.text.setDepth(DEPTH)
+    this.text.setScrollFactor(0,0);
   }
 }
