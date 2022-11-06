@@ -1,27 +1,27 @@
 import 'phaser'
-import MainScene from './scenes/mainScene'
+import { BootScene, GameScene } from './scenes'
 import DialogModalPlugin from './plugins/dialogModal';
 
-const CANVAS_WIDTH = 800;
-const CANVAS_HEIGHT = 600;
+const CANVAS_WIDTH = 800
+const CANVAS_HEIGHT = 600
 
 const gameConfig: Phaser.Types.Core.GameConfig = {
   title: 'White Gold',
   render: {
-    antialias: false,
+    antialias: false
   },
   type: Phaser.AUTO,
-  scene: MainScene,
+  scene: [BootScene, GameScene],
   scale: {
     width: CANVAS_WIDTH,
-    height: CANVAS_HEIGHT,
+    height: CANVAS_HEIGHT
   },
-  parent: "phaser-game",
-  backgroundColor: "#48C4F8",
+  parent: 'phaser-game',
+  backgroundColor: '#48C4F8',
   physics: {
     default: 'arcade',
     arcade: {
-      gravity: { y: 0 }, // Top down game, so no gravity
+      gravity: { y: 0 } // Top down game, so no gravity
     }
   },
   plugins: [
@@ -31,7 +31,7 @@ const gameConfig: Phaser.Types.Core.GameConfig = {
       start: true
     }
   ]
-};
+}
 
 window.addEventListener('load', () => {
   const game = new Phaser.Game(gameConfig)

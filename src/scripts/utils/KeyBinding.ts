@@ -7,8 +7,10 @@ const BINDINGS = {
   UP: Phaser.Input.Keyboard.KeyCodes.W,
   DOWN: Phaser.Input.Keyboard.KeyCodes.S,
   INTERACT: Phaser.Input.Keyboard.KeyCodes.E,
-  SPACE: Phaser.Input.Keyboard.KeyCodes.SPACE,
+  SPACE: Phaser.Input.Keyboard.KeyCodes.SPACE
 }
+
+export type KeyMapping = { [key: string]: Phaser.Input.Keyboard.Key }
 
 /**
  * The KeyBinding utility class provides a convenient way to create key bindings for a scene
@@ -20,11 +22,15 @@ export default class KeyBinding {
    * @param scene The current scene
    * @param bindings An array of key bindings to use
    */
-  static createKeys(scene: Phaser.Scene, bindings: string[]): { [key: string]: Phaser.Input.Keyboard.Key } {
-    const keys: { [key: string]: Phaser.Input.Keyboard.Key } = {};
-    bindings.forEach((binding) => {
-      keys[binding] = scene.input.keyboard.addKey(BINDINGS[binding.toUpperCase()]);
+  static createKeys(scene: Phaser.Scene, bindings: string[]): KeyMapping {
+    const keys: { [key: string]: Phaser.Input.Keyboard.Key } = {}
+    bindings.forEach(binding => {
+      keys[binding] = scene.input.keyboard.addKey(BINDINGS[binding.toUpperCase()])
     })
-    return keys;
+    return keys
+  }
+
+  static createMovementKeys(scene: Phaser.Scene): KeyMapping {
+    return KeyBinding.createKeys(scene, ['left', 'right', 'up', 'down'])
   }
 }

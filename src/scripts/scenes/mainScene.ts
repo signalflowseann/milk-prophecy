@@ -4,20 +4,14 @@ import GridPhysics from "../utils/gridPhysics";
 import { Direction } from "../utils/direction";
 import DialogModalPlugin from "../plugins/dialogModal";
 
-const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
-  active: false,
-  visible: false,
-  key: "Game",
-};
-
 export default class MainScene extends Phaser.Scene {
-  constructor() {
-    super(sceneConfig)
-  }
+  static readonly TILE_SIZE = 48
+  private gridControls: GridControls
+  private gridPhysics: GridPhysics
 
-  static readonly TILE_SIZE = 48;
-  private gridControls: GridControls;
-  private gridPhysics: GridPhysics;
+  constructor() {
+    super({ active: false, visible: false, key: 'GameOld' })
+  }
 
   private createPlayerAnimation(
     name: string,
