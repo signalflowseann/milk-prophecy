@@ -1,7 +1,6 @@
-// import Pha{ Scene } from "phaser";
 import Phaser from "phaser";
 
-const DEPTH = 4
+const DEPTH = 8
 
 export default class DialogModalPlugin extends Phaser.Plugins.BasePlugin {
   scene: Phaser.Scene

@@ -1,6 +1,7 @@
 import KeyBinding, { KeyMapping } from '../utils/KeyBinding'
 import Player from '../gameplay/Player'
 import PlayerEntity from '../objects/entity/PlayerEntity'
+import DialogModalPlugin from '../plugins/dialogModal'
 import Vector2 = Phaser.Math.Vector2
 
 export default class GameScene extends Phaser.Scene {
@@ -12,6 +13,15 @@ export default class GameScene extends Phaser.Scene {
 
   constructor() {
     super({ active: false, visible: false, key: 'Game' })
+  }
+  preload() {
+    const key = 'DialogModalPlugin'
+    this.plugins.install(key, DialogModalPlugin)
+    const dialogModal = this.plugins.get(key)
+
+    // TODO: fix type bs
+    /* @ts-ignore */
+    dialogModal.setText('You have been chosen by the dairy gods to fetch a carton of milk, oh chosen one. The prophecy of old has predicted your coming. Here you are at long last! Go and retrieve the milk carton and the world will be saved from a milkless existence.', true);
   }
 
   create() {
