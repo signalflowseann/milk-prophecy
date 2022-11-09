@@ -2,7 +2,7 @@ import KeyBinding, { KeyMapping } from '../utils/KeyBinding'
 import Player from '../gameplay/Player'
 import PlayerEntity from '../objects/entity/PlayerEntity'
 import DialogModalPlugin from '../plugins/dialogModal'
-import Vector2 = Phaser.Math.Vector2
+import WorldManager from '../world/WorldManager'
 
 export default class GameScene extends Phaser.Scene {
   static readonly TILE_WIDTH = 136
@@ -10,10 +10,14 @@ export default class GameScene extends Phaser.Scene {
 
   keys: KeyMapping
   private player: Player
+  private readonly world: WorldManager
 
   constructor() {
     super({ active: false, visible: false, key: 'Game' })
+
+    this.world = new WorldManager(this)
   }
+
   preload() {
     const key = 'DialogModalPlugin'
     this.plugins.install(key, DialogModalPlugin)
@@ -25,21 +29,11 @@ export default class GameScene extends Phaser.Scene {
   }
 
   create() {
-    const isoMap = this.make.tilemap({ key: 'home-map' })
-    for (const imageLayer of isoMap.images) {
-      const image = this.add.image(imageLayer.x ?? 0, imageLayer.y ?? 0, imageLayer.name)
-      image.setScrollFactor(1, 1)
-      image.setDisplayOrigin(0, 0)
-    }
-
     // Player
     this.player = new Player(new PlayerEntity(this), this)
-    const offsetX = GameScene.TILE_WIDTH / 2
-    const offsetY = GameScene.TILE_HEIGHT
-
-    this.player
-      .getEntity()
-      .setPosition(new Vector2(7 * GameScene.TILE_WIDTH + offsetX, 5 * GameScene.TILE_HEIGHT + offsetY))
+    if (!this.player.getLocation()) {
+      this.world.setArea('home-map', 'Start Spawn')
+    }
 
     // Camera
     this.player.makeSubjectOf(this.cameras.main)
@@ -54,6 +48,10 @@ export default class GameScene extends Phaser.Scene {
 
     // Do updates
     this.player.update()
+  }
+
+  getPlayer(): Player {
+    return this.player
   }
 
   private handleInput() {

@@ -2,10 +2,10 @@
     "maps": [
         {
             "fileName": "home.json",
-            "height": 2050,
-            "width": 3400,
-            "x": 1292,
-            "y": 0
+            "height": 1435,
+            "width": 1972,
+            "x": 5440,
+            "y": -82
         }
     ],
     "onlyShowAdjacentMaps": false,

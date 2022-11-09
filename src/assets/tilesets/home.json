@@ -1,12 +1,4 @@
 { "compressionlevel":-1,
- "editorsettings":
-    {
-     "export":
-        {
-         "format":"json",
-         "target":"tilesets\/home.json"
-        }
-    },
  "height":34,
  "infinite":false,
  "layers":[
@@ -42,7 +34,7 @@
         }, 
         {
          "id":2,
-         "image":"img\/House_Bg-sketch-isometric.jpg",
+         "image":"..\/img\/House_Bg-sketch-isometric.jpg",
          "name":"background",
          "offsetx":-4,
          "offsety":30,
@@ -115,7 +107,7 @@
              "orientation":"isometric",
              "width":32
             },
-         "image":"tilesets\/Elevation.png",
+         "image":"Elevation.png",
          "imageheight":256,
          "imagewidth":256,
          "margin":0,
