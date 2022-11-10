@@ -1,0 +1,21 @@
+{ "columns":8,
+ "grid":
+    {
+     "height":32,
+     "orientation":"isometric",
+     "width":32
+    },
+ "image":"Elevation.png",
+ "imageheight":256,
+ "imagewidth":256,
+ "margin":0,
+ "name":"Elevation",
+ "spacing":0,
+ "tilecount":64,
+ "tiledversion":"1.9.2",
+ "tileheight":32,
+ "tilerendersize":"grid",
+ "tilewidth":32,
+ "type":"tileset",
+ "version":"1.9"
+}

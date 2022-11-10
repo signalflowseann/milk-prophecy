@@ -1,6 +1,6 @@
 import 'phaser'
 import { BootScene, GameScene } from './scenes'
-import DialogModalPlugin from './plugins/dialogModal';
+import DialogModalPlugin from './plugins/dialogModal'
 
 const CANVAS_WIDTH = 800
 const CANVAS_HEIGHT = 600
@@ -21,7 +21,8 @@ const gameConfig: Phaser.Types.Core.GameConfig = {
   physics: {
     default: 'arcade',
     arcade: {
-      gravity: { y: 0 } // Top down game, so no gravity
+      gravity: { y: 0 },
+      debug: true
     }
   },
   plugins: [

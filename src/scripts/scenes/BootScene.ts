@@ -22,7 +22,10 @@ export default class BootScene extends Phaser.Scene {
 
     // TODO: Change this
     this.load.image('background', 'assets/img/House_Bg-sketch-isometric.jpg')
+
+    this.load.image('elevation', 'assets/tilesets/Elevation.png')
     this.load.tilemapTiledJSON('home-map', 'assets/home.json')
+
     this.load.spritesheet('player', 'assets/img/base/base_character_sheet.png', {
       frameWidth: 131,
       frameHeight: 261

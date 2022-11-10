@@ -19,13 +19,18 @@ export default class PlayerEntity extends Entity {
     this.circle = scene.add.circle(sprite.x, sprite.y, 2, 0xff0000)
     this.circle.setDepth(3)
 
+    this.initCollider()
     this.initAnimations()
   }
 
   update() {
     super.update()
 
-    this.circle.setPosition(this.getSprite().x, this.getSprite().y)
+    this.circle.setPosition(this.position.x, this.position.y)
+  }
+
+  private initCollider(): void {
+    this.scene.physics.add.existing(this.getSprite())
   }
 
   private initAnimations(): void {
